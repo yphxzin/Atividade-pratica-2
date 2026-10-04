@@ -1,69 +1,58 @@
-Participantes da atividade 2: Pedro Henrique Marques
-# Laboratório de ML Supervisionado — versão corrigida
+# Atividade Prática 2 — Aprendizado de Máquina Supervisionado
 
-Este pacote mantém os dois problemas originais (**churn** e **imóveis**) e adiciona o terceiro problema pedido no exercício: **risco de crédito**.
+## Participante
 
-## Correção do botão "Prever"
+- Pedro Henrique Marques
 
-Nesta versão, o JavaScript:
-- mostra "Calculando..." enquanto espera a API;
-- captura erros de rede e erros HTTP;
-- mostra no cartão **Previsão** a mensagem retornada pelo Flask;
-- não fica silencioso quando a API responde com erro;
-- usa exatamente o endpoint `/api/prever/<nome>` esperado pelo `app.py`.
+## Objetivo
 
-O `app.py` também captura exceções e devolve o erro em JSON, além de imprimir o traceback no terminal.
+Este projeto foi desenvolvido para a disciplina de Aprendizado de Máquina Supervisionado.
 
-## Como executar no Windows
+O objetivo é construir um modelo capaz de estimar a **probabilidade de inadimplência de pedidos de empréstimo**, apoiando a tomada de decisão de uma equipe de crédito.
 
-No terminal, dentro da pasta do projeto:
+O projeto também mantém os exemplos de:
 
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-python gerar_dados.py
-python treinar.py
-python app.py
-```
+- Churn de clientes
+- Preço de imóveis
+- Risco de crédito
 
-Depois abra:
+A aplicação utiliza **Python, pandas, scikit-learn, Flask, HTML, CSS e JavaScript**.
+
+---
+
+## Problema de crédito
+
+A base utilizada possui **6.000 contratos de empréstimo**, com aproximadamente **21% de inadimplentes**.
+
+A variável alvo é:
+
+- `inadimplente = 1`: cliente não pagou o empréstimo
+- `inadimplente = 0`: cliente pagou o empréstimo
+
+### Variáveis utilizadas
+
+| Variável | Descrição |
+|---|---|
+| `idade` | Idade do cliente |
+| `renda_mensal` | Renda mensal |
+| `tempo_emprego_anos` | Tempo de emprego em anos |
+| `score_credito` | Score de crédito entre 300 e 1000 |
+| `dividas_ativas` | Número de dívidas em aberto |
+| `possui_imovel` | Indica se o cliente possui imóvel |
+| `finalidade` | Finalidade do empréstimo |
+| `valor_emprestimo` | Valor solicitado |
+| `prazo_meses` | Prazo do empréstimo |
+| `inadimplente` | Variável alvo |
+
+A coluna `id_contrato` foi removida das features porque é somente um identificador e não representa uma característica útil do cliente.
+
+---
+
+# 1. Análise Exploratória
+
+A análise exploratória foi realizada com `pandas`, `matplotlib` e `seaborn`.
+
+A proporção de inadimplentes encontrada foi de aproximadamente:
 
 ```text
-http://127.0.0.1:5000
-```
-
-**Não abra `templates/index.html` diretamente** e não use Live Server para esta aplicação. O HTML precisa ser servido pelo Flask para conseguir acessar `/api/problemas` e `/api/prever/...`.
-
-## Teste rápido
-
-Com o servidor rodando, abra no navegador:
-
-```text
-http://127.0.0.1:5000/api/saude
-```
-
-A resposta deve ser parecida com:
-
-```json
-{"status":"ok","problemas":["churn","imoveis","credito"]}
-```
-
-## Estrutura
-
-```text
-laboratorio_ml_corrigido/
-├── app.py
-├── config.py
-├── gerar_dados.py
-├── treinar.py
-├── requirements.txt
-├── data/
-├── models/
-└── templates/
-    └── index.html
-```
-
-## Observação
-
-Na primeira execução, se os CSVs ou modelos estiverem ausentes, `app.py` tenta gerar os dados e treinar automaticamente. Mesmo assim, para acompanhar possíveis erros com clareza, recomenda-se rodar primeiro `python gerar_dados.py` e depois `python treinar.py`.
+21%
